@@ -3,7 +3,7 @@ import zipfile
 from urllib.request import urlretrieve
 
 import faiss
-from gensim.models import KeyedVectors, word2vec
+from gensim.models import KeyedVectors, word2vec 
 from tqdm import tqdm
 
 SRC_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -49,7 +49,11 @@ def get_vector():
 def do_indexing(word2vec_model=None):
     if not os.path.isfile(INDEX_FILE_PATH):
         index = faiss.IndexFlatIP(word2vec_model.vector_size)
-        index.add(word2vec_model.wv.syn0norm)
+        print(word2vec_model.__dict__)
+        if word2vec_model is None:
+            print("model is None!")
+        #index.add(word2vec_model.wv.syn0norm)
+        index.add(word2vec_model.vectors)
         faiss.write_index(index, INDEX_FILE_PATH)
         return index
     else:
@@ -62,7 +66,7 @@ def main():
 
     # get word vector via word2vec
     model = get_vector()
-    model.wv.init_sims(replace=True)
+    model.init_sims(replace=True)
 
     # indexing via faiss
     do_indexing(word2vec_model=model)

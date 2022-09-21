@@ -1,4 +1,4 @@
-#include <faiss/FaissException.h>
+//#include <faiss/FaissException.h>
 
 #include "faiss_server.h"
 
@@ -8,9 +8,6 @@ FaissServer::FaissServer(const std::shared_ptr<logger>& logger,
     : logger_(logger), default_top_k_(default_top_k) {
   try {
     index_ = faiss::read_index(file_path);
-  } catch (faiss::FaissException& fe) {
-    logger_->error("Failed to read index: {}", fe.msg);
-    std::exit(1);
   } catch (std::exception& e) {
     logger_->error("Failed to read index: {}", e.what());
     std::exit(1);

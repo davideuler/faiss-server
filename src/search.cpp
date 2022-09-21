@@ -27,7 +27,7 @@ grpc::Status FaissServer::Search(grpc::ServerContext* context,
       std::vector<float>(vector.float_val().begin(), vector.float_val().end());
   logger_->info("Search: top_k={}, size={}", top_k, vector_size);
 
-  std::vector<long> indices(top_k);
+  std::vector<faiss::Index::idx_t> indices(top_k);
   std::vector<float> dist(top_k);
 
   try {
@@ -70,7 +70,7 @@ grpc::Status FaissServer::SearchById(grpc::ServerContext* context,
   // exclude request id
   top_k++;
 
-  std::vector<long> indices(top_k);
+  std::vector<faiss::Index::idx_t> indices(top_k);
   std::vector<float> dist(top_k);
 
   try {

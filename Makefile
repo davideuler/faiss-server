@@ -1,6 +1,6 @@
 .PHONY: client
 client:
-	protoc --proto_path=protobuf \
+	build/protobuf/bin/protoc-3.21.1.0 --proto_path=protobuf \
 		--cpp_out=src/protobuf \
 		--grpc_out src/protobuf \
 		--plugin=protoc-gen-grpc=`which grpc_cpp_plugin` \

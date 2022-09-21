@@ -45,8 +45,21 @@ $ ./build/bin/faiss_server -file_path example/indexing/faiss.index
 
 3. Throw the requests for similarity search
 ```
+$python3 -m pip install --user protobuf==3.20.1
+$conda install grpcio
+
+#Generate the protobuf client file faiss_pb2.py:
+$build/protobuf/bin/protoc-3.21.1.0 --proto_path=protobuf \
+                --python_out=example/client \
+                --grpc_out example/client \
+                --plugin=protoc-gen-grpc=`which grpc_python_plugin` \
+                protobuf/faiss.proto
+
 $ PYTHONPATH=python python example/client/search.py
 ```
+
+If meet error of "TypeError: bases must be types" when running search.py, just uninstall the protobuf, and reinstall:
+$python3 -m pip install --user protobuf==3.20.1
 
 ## Usage
 
